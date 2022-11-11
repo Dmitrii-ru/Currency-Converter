@@ -1,0 +1,14 @@
+{%extends 'converter/base.html' %}
+{%block title%}
+   Удаление статьи {{title}}
+{%endblock%}
+{%block content%}
+        <h1>Вы точно хотите удалить статью "{{object.title}}"?</h1>
+        <form method="post" class="mt-2 form-control  form_form col-6">
+            {%csrf_token%}
+            <button class="btn btn-danger" type="submit"> Удалить </button>
+            <a href="{% url 'news_detail' object.id %}">Я передумал</a>
+        </form>
+
+
+{% endblock content %}

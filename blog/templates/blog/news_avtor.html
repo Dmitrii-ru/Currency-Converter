@@ -1,0 +1,39 @@
+{%extends 'converter/base.html' %}
+{%block content%}
+<h2>Статьи от {{ view.kwargs.username }}</h2>
+<h4>Количество статей :{{ page_obj.paginator.count}}</h4>
+<a class="btn btn-primary m-3" href="{%url 'create_post'%}">Создать пост</a>
+  {% for post in news %}
+    <div class="alert alert-light m-3">
+      <h1>{{ post.title }}</h1>
+      <p>{{ post.text| truncatechars:300 }}</p>
+      <span class="text-muted">Публикация: {{ post.date|date:"j F Y, время: H:i:s" }}</span>
+      {% if post.avtor %}
+        <p><b>Автор:</b> <mark>{{ post.avtor }}</mark></p>
+      {% else %}
+        <p><b>Автор:</b> <mark>Админ</mark></p>
+      {% endif %}
+      <p><b>Просмотры:</b> <mark>{{post.views}}</mark></p>
+      <a href="{% url 'news_detail' post.id %}" class="btn btn-primary">Читать </a>
+    </div>
+  {% endfor %}
+  {%if is_paginated %}
+    {%if page_obj.has_previous %}
+      <a href="{% url 'blog' %}" class="btn btn-danger m-3">В начало</a>
+      <a href="?page={{ page_obj.previous_page_number }}" class="btn btn-primary m-3">Предыдущая страница</a>
+    {% endif %}
+    {%for num in page_obj.paginator.page_range %}
+      {%if num == page_obj.number%}
+        <button class="btn btn-danger m-3" >{{num}}</button>
+      {%elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3'%}
+        <a href="?page={{ num }}" class="btn btn-primary">{{num}}</a>
+      {%endif%}
+    {%endfor%}
+    {%if page_obj.has_next %}
+      <a href="?page={{ page_obj.next_page_number }}" class="btn btn-primary m-3">Следующая страница</a>
+      <a href="?page={{ page_obj.paginator.num_pages }}" class="btn btn-danger m-3">В конец</a>
+    {% endif %}
+  {% endif %}
+
+
+{% endblock content %}

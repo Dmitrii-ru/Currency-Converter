@@ -1,0 +1,19 @@
+{% extends 'converter/base.html' %}
+
+{% block content %}
+
+<div class=" form_user ">
+    <div class="form_wight">
+    <form method="post" class="mt-2 form-control  form_form col-6">
+        {%csrf_token%}
+        {{form.as_p}}
+        <button class="btn btn btn-primary mb-3" type="submit"> Вход </button>
+        <p><a class="btn btn btn-primary" href="{%url 'reg'%}">Регистрация на сайте</a>
+        <p><a class="btn btn btn-primary" href="{%url 'profile'%}">Ваш профиль</a></p>
+        <p><a class="btn btn btn-primary" href="{%url 'pass-reset'%}">Восстановить пароль</a></p>
+        <p><a class="btn btn btn-primary" href="{%url 'exit'%}">Выйти</a></p>
+
+    </form>
+    </div>
+</div>
+{% endblock content %}

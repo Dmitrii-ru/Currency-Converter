@@ -1,0 +1,39 @@
+{%extends 'converter/base.html' %}
+{% block title %}
+  {{ object.title }}
+{% endblock %}
+{%block content%}
+{%if user == object.avtor%}
+  <a class="btn btn-primary m-3" href="{%url 'news_update' object.id%}">Изменить статью </a>
+  <a class="btn btn-primary m-3" href="{%url 'news_delete' object.id%}">Удалить статью </a>
+{%endif%}
+    <div class="alert alert-light m-3">
+      <h1>{{ object.title }}</h1>
+      <p>{{ object.text }}</p>
+      <span class="text-muted">Публикация: {{ post.date|date:"j F Y, время: H:i:s" }}</span>
+      {% if object.link %}
+      <p><b>Источник:</b> <a href="{{object.link}}">{{object.link}}</a></p>
+      {% endif %}
+      {% if object.avtor %}
+        <p><b>Автор:</b> <a href="{% url 'news_avtor' object.avtor%}">{{ object.avtor }}</a></p>
+      {% else %}
+        <p><b>Автор:</b> <mark>Админ</mark></p>
+      {% endif %}
+
+    </div>
+
+    <form enctype="multipart/form-data" method="post" class="alert alert-light m-3 new_comment"  >
+        {%csrf_token%}
+        {{form.comment}}
+        <button class="btn btn btn-primary" type="submit" name="button"> Опубликовать комментарий </button>
+    </form>
+    {% for comm in comment %}
+        <div class="alert alert-light  comment m-3">
+            {{comm.comment}}
+            <p><b> Написал <mark>{{comm.user}}</mark> в {{ comm.created }}</b></p>
+        </div>
+    {% endfor%}
+
+
+
+{% endblock content %}
